@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 type partialCalc struct {
@@ -140,16 +139,9 @@ func main() {
 			return
 		}
 
-		startTime := time.Now()
-		concurrentLinearRegression(x, y)
-		elapsedTimeMicroseconds := time.Since(startTime).Seconds() * 1000000
+		//concurrentLinearRegression(x, y)
+		coefA, coefB := concurrentLinearRegression(x, y)
 
-		_, err = fmt.Fprintf(file, "%.6f\n", elapsedTimeMicroseconds)
-		if err != nil {
-			fmt.Println("Error writing to file:", err)
-			return
-		}
-
-		fmt.Printf("Iteration %d completed in %.6f microseconds\n", i+1, elapsedTimeMicroseconds) // Print progress
+		fmt.Printf("Regression result for iteration %d: y = %.6f + %.6fx\n", i+1, coefA, coefB) // Print regression result
 	}
 }
